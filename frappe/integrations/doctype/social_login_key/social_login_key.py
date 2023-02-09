@@ -64,6 +64,7 @@ class SocialLoginKey(Document):
 			"GitHub": "github.svg",
 			"Salesforce": "salesforce.svg",
 			"fairlogin": "fair.svg",
+			"Azure": "office_365.svg",
 		}
 
 		if self.provider_name in icon_map:
@@ -73,6 +74,34 @@ class SocialLoginKey(Document):
 	@frappe.whitelist()
 	def get_social_login_provider(self, provider, initialize=False):
 		providers = {}
+
+		providers["Azure"] = {
+			"provider_name": "Azure",
+			"enable_social_login": 1,
+			"base_url": "https://login.microsoftonline.com",
+			"custom_base_url": 0,
+			"icon": "fa fa-azure",
+			"authorize_url": "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
+			"access_token_url": "https://login.microsoftonline.com/common/oauth2/v2.0/token",
+			"redirect_url": "/api/method/frappe.integrations.oauth2_logins.login_via_azure",
+			"api_endpoint": None,
+			"api_endpoint_args": None,
+			"auth_url_data": json.dumps({"response_type": "code", "scope": "user.read", "state": "12345", "response_mode": "query"}),
+		}
+
+		providers["Office 365"] = {
+			"provider_name": "Office 365",
+			"enable_social_login": 1,
+			"base_url": "https://login.microsoftonline.com",
+			"custom_base_url": 0,
+			"icon": "fa fa-windows",
+			"authorize_url": "https://login.microsoftonline.com/common/oauth2/authorize",
+			"access_token_url": "https://login.microsoftonline.com/common/oauth2/token",
+			"redirect_url": "/api/method/frappe.integrations.oauth2_logins.login_via_office365",
+			"api_endpoint": None,
+			"api_endpoint_args": None,
+			"auth_url_data": json.dumps({"response_type": "code", "scope": "openid"}),
+		}
 
 		providers["Office 365"] = {
 			"provider_name": "Office 365",
