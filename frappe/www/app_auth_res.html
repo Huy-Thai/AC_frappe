@@ -1,0 +1,22 @@
+{% block head_include %}
+{{ include_style('login.bundle.css') }}
+{% endblock %}
+
+{% macro logo_section() %}
+<div class="page-card-head">
+	<img class="app-logo" src="{{ logo }}">
+	<h4>Đăng nhập Thành Công</h4>
+</div>
+{% endmacro %}
+
+{% block page_content %}
+<div>
+	<section class='for-login'>
+		<div class="login-content page-card">
+			{{ logo_section() }}
+		</div>
+	</section>
+</div>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

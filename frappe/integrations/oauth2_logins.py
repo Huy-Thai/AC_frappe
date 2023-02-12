@@ -34,6 +34,11 @@ def login_via_office365(code: str, state: str):
 
 
 @frappe.whitelist(allow_guest=True)
+def login_via_ms_azure(code: str, state: str):
+	login_via_oauth2_id_token("ms_azure", code, state, decoder=decoder_compat, is_app_auth=True)
+
+
+@frappe.whitelist(allow_guest=True)
 def login_via_salesforce(code: str, state: str):
 	login_via_oauth2("salesforce", code, state, decoder=decoder_compat)
 
