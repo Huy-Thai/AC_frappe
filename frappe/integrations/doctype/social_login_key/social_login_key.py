@@ -86,7 +86,7 @@ class SocialLoginKey(Document):
 			"redirect_url": "https://erpnext-dev.pandion.vn/api/method/frappe.integrations.oauth2_logins.login_via_ms_azure",
 			"api_endpoint": None,
 			"api_endpoint_args": None,
-			"auth_url_data": json.dumps({"response_type": "code", "scope": "user.read", "state": "12345", "response_mode": "query"}),
+			"auth_url_data": json.dumps({"response_type": "code", "scope": "openid"}),
 		}
 
 		providers["Office 365"] = {
