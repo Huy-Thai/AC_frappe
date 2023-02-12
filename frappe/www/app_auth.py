@@ -8,19 +8,7 @@ from frappe.website.utils import get_home_page
 no_cache = True
 
 def get_context(context):
-	redirect_to = frappe.local.request.args.get("redirect-to")
-
-	if frappe.session.user != "Guest":
-		if not redirect_to:
-			if frappe.session.data.user_type == "Website User":
-				redirect_to = get_home_page()
-			else:
-				redirect_to = "/app"
-
-		if redirect_to != "login":
-			frappe.local.flags.redirect_location = redirect_to
-			raise frappe.Redirect
-
+	redirect_to = "/app_auth_res"
 	context.no_header = True
 	context["title"] = "App Auth"
 	context["hide_login"] = True
