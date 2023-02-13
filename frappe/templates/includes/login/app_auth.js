@@ -9,7 +9,7 @@ login.bind_events = function () {
 		event.preventDefault();
         let cookies = frappe.get_cookies();
 		console.log(cookies);
-        window.location = `start "unilinks://erpnext-dev.pandion.vn/?userId=${cookies.user_id}"`
+    	`start "unilinks://erpnext-dev.pandion.vn/?userId=${cookies.user_id}"`
 		
 		return false;
 	});
