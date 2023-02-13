@@ -13,6 +13,7 @@ def get_context(context):
 	context["title"] = "App Auth"
 	context["hide_login"] = True
 	context["provider_logins"] = []
+	context["provider_logins"] = ""
 	context["logo"] = frappe.get_website_settings("app_logo") or frappe.get_hooks("app_logo_url")[-1]
 	context["app_name"] = (
 		frappe.get_website_settings("app_name") or frappe.get_system_settings("app_name") or _("Frappe")
@@ -24,8 +25,6 @@ def get_context(context):
 		fields=["name", "client_id", "base_url", "provider_name", "icon"],
 		order_by="name",
 	)
-
-	print(providers);
 
 	for provider in providers:
 		client_secret = get_decrypted_password("Social Login Key", provider.name, "client_secret")

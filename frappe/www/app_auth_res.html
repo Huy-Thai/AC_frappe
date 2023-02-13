@@ -1,3 +1,11 @@
+{% macro login_body() -%}
+<div class="page-card-actions">
+	<button class="btn btn-sm btn-primary btn-block btn-login" type="submit">
+		Quay lại Desktop App
+	</button>
+</div>
+{% endmacro %}
+
 {% block head_include %}
 {{ include_style('login.bundle.css') }}
 {% endblock %}
@@ -14,6 +22,13 @@
 	<section class='for-login'>
 		<div class="login-content page-card">
 			{{ logo_section() }}
+			<form class="form-signin form-login" role="form">
+				<div class="page-card-body">
+					<form class="form-signin form-login" role="form">
+						{{ login_body() }}
+					</form>
+				</div>
+			</form>
 		</div>
 	</section>
 </div>

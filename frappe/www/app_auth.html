@@ -1,6 +1,6 @@
 {% extends "templates/web.html" %}
 
-{% macro email_login_body() -%}
+{% macro login_body() -%}
 <div class="page-card-actions">
 	<div class="social-login-buttons">
         {% for provider in provider_logins %}
@@ -44,7 +44,7 @@
 			<form class="form-signin form-login" role="form">
 				<div class="page-card-body">
 					<form class="form-signin form-login" role="form">
-						{{ email_login_body() }}
+						{{ login_body() }}
 					</form>
 				</div>
 			</form>
