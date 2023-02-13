@@ -1,7 +1,9 @@
+{% extends "templates/web.html" %}
+
 {% macro login_body() -%}
 <div class="page-card-actions">
-	<button class="btn btn-sm btn-primary btn-block btn-login" type="submit">
-		Quay lại Desktop App
+	<button class="btn btn-sm btn-default btn-block btn-login" type="submit">
+		Quay lại ERP Desktop App
 	</button>
 </div>
 {% endmacro %}
@@ -32,6 +34,10 @@
 		</div>
 	</section>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>{% include "templates/includes/login/app_auth.js" %}</script>
 {% endblock %}
 
 {% block sidebar %}{% endblock %}
