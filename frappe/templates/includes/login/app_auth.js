@@ -7,9 +7,12 @@ login.bind_events = function () {
 
 	$(".form-login").on("submit", function (event) {
 		event.preventDefault();
-        let cookies = frappe.get_cookies();
+        let cookies = "{{ user_context }}";
 		console.log(cookies);
-    	window.document = `unilinks://erpnext-dev.pandion.vn/?cookies=${cookies}`
+    	window.open(
+			`unilinks://erpnext-dev.pandion.vn/?cookies=${cookies}`,
+			'_blank',
+		)
 		
 		return false;
 	});
