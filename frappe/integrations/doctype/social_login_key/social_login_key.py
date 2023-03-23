@@ -75,15 +75,15 @@ class SocialLoginKey(Document):
 	def get_social_login_provider(self, provider, initialize=False):
 		providers = {}
 
-		providers["MS Azure"] = {
-			"provider_name": "MS Azure",
+		providers["MS Office"] = {
+			"provider_name": "MS Office",
 			"enable_social_login": 1,
 			"base_url": "https://login.microsoftonline.com",
 			"custom_base_url": 0,
 			"icon": "fa fa-azure",
 			"authorize_url": "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
 			"access_token_url": "https://login.microsoftonline.com/common/oauth2/v2.0/token",
-			"redirect_url": "https://erpnext-dev.pandion.vn/api/method/frappe.integrations.oauth2_logins.login_via_ms_azure",
+			"redirect_url": "https://erp-dev.pandion.vn/api/method/frappe.integrations.oauth2_logins.login_via_ms_azure",
 			"api_endpoint": None,
 			"api_endpoint_args": None,
 			"auth_url_data": json.dumps({"response_type": "code", "scope": "openid"}),
