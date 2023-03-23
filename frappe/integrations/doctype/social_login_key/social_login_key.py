@@ -64,7 +64,7 @@ class SocialLoginKey(Document):
 			"GitHub": "github.svg",
 			"Salesforce": "salesforce.svg",
 			"fairlogin": "fair.svg",
-			"MS Azure": "office_365.svg",
+			"MS Office": "office_365.svg",
 		}
 
 		if self.provider_name in icon_map:
