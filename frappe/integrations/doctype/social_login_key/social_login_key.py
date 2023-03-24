@@ -64,7 +64,7 @@ class SocialLoginKey(Document):
 			"GitHub": "github.svg",
 			"Salesforce": "salesforce.svg",
 			"fairlogin": "fair.svg",
-			"MS Office": "office_365.svg",
+			"MS Azure": "office_365.svg",
 		}
 
 		if self.provider_name in icon_map:
@@ -75,8 +75,8 @@ class SocialLoginKey(Document):
 	def get_social_login_provider(self, provider, initialize=False):
 		providers = {}
 
-		providers["MS Office"] = {
-			"provider_name": "MS Office",
+		providers["MS Azure"] = {
+			"provider_name": "MS Azure",
 			"enable_social_login": 1,
 			"base_url": "https://login.microsoftonline.com",
 			"custom_base_url": 0,
