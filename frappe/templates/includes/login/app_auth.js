@@ -8,9 +8,9 @@ login.bind_events = function () {
 	$(".form-login").on("submit", function (event) {
 		event.preventDefault();
 		let cookies = "{{ user_context }}";
-		// console.log(cookies);
+
 		window.open(
-			`erp-app-dev://res=${cookies}`,
+			`erp-desktop-app://res=${cookies}`,
 			'_blank',
 		)
 
