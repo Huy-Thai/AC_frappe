@@ -10,7 +10,7 @@ login.bind_events = function () {
 		let cookies = "{{ user_context }}";
 	
 		window.open(
-			`erp-desktop-app://res=${cookies}`,
+			`acerp-desk-app://res=${cookies}`,
 			'_blank',
 		)
 
