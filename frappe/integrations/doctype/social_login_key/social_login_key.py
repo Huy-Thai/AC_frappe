@@ -6,7 +6,7 @@ import json
 import frappe
 from frappe import _
 from frappe.model.document import Document
-
+from frappe.integrations.utils import config_env_service
 
 class BaseUrlNotSetError(frappe.ValidationError):
 	pass
@@ -73,6 +73,7 @@ class SocialLoginKey(Document):
 
 	@frappe.whitelist()
 	def get_social_login_provider(self, provider, initialize=False):
+		config = config_env_service()
 		providers = {}
 
 		providers["MS Azure"] = {
@@ -83,7 +84,7 @@ class SocialLoginKey(Document):
 			"icon": "fa fa-azure",
 			"authorize_url": "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
 			"access_token_url": "https://login.microsoftonline.com/common/oauth2/v2.0/token",
-			"redirect_url": "https://acerp.pandion.vn/api/method/frappe.integrations.oauth2_logins.login_via_ms_azure",
+			"redirect_url": config.redirect_url,
 			"api_endpoint": None,
 			"api_endpoint_args": None,
 			"auth_url_data": json.dumps({"response_type": "code", "scope": "openid"}),
