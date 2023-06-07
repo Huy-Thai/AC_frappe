@@ -84,7 +84,7 @@ class SocialLoginKey(Document):
 			"icon": "fa fa-azure",
 			"authorize_url": "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
 			"access_token_url": "https://login.microsoftonline.com/common/oauth2/v2.0/token",
-			"redirect_url": config.redirect_url,
+			"redirect_url": config["redirect_url"],
 			"api_endpoint": None,
 			"api_endpoint_args": None,
 			"auth_url_data": json.dumps({"response_type": "code", "scope": "openid"}),
