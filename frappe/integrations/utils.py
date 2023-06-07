@@ -102,7 +102,7 @@ def json_handler(obj):
 
 
 def config_env_service():
-  isProduction = False # Change False if run on env development
+  isProduction = True # Change False if run on env development
   services = {
 		"redirect_url": "https://acerp-dev.pandion.vn/api/method/frappe.integrations.oauth2_logins.login_via_ms_azure",
 		"server_ip": "192.168.11.22"
