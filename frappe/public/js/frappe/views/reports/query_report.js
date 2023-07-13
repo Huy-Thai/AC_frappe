@@ -1224,7 +1224,9 @@ frappe.views.QueryReport = class QueryReport extends frappe.views.BaseList {
 
 			return Object.assign(column, {
 				id: column.fieldname,
-				name: __(column.label, null, `Column of report '${this.report_name}'`), // context has to match context in   get_messages_from_report in translate.py
+				// The column label should have already been translated in the
+				// backend. Translating it again would cause unexpected behaviour.
+				name: column.label,
 				width: parseInt(column.width) || null,
 				editable: false,
 				compareValue: compareFn,
@@ -1960,12 +1962,3 @@ frappe.views.QueryReport = class QueryReport extends frappe.views.BaseList {
 		return this.get_filter_values;
 	}
 };
-
-Object.defineProperty(frappe, "query_report_filters_by_name", {
-	get() {
-		console.warn(
-			"[Query Report] frappe.query_report_filters_by_name is deprecated. Please use the new api: frappe.query_report.get_filter_value(fieldname) and frappe.query_report.set_filter_value(fieldname, value)"
-		);
-		return null;
-	},
-});

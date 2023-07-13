@@ -337,7 +337,7 @@ class DocType(Document):
 			"DocField", "parent", dict(fieldtype=["in", frappe.model.table_fields], options=self.name)
 		)
 		for p in parent_list:
-			frappe.db.set_value("DocType", p.parent, {}, for_update=False)
+			frappe.db.set_value("DocType", p.parent, {})
 
 	def scrub_field_names(self):
 		"""Sluggify fieldnames if not set from Label."""
@@ -1496,6 +1496,7 @@ def get_fields_not_allowed_in_list_view(meta) -> list[str]:
 	not_allowed_in_list_view.append("Attach Image")
 	if meta.istable:
 		not_allowed_in_list_view.remove("Button")
+		not_allowed_in_list_view.remove("HTML")
 	return not_allowed_in_list_view
 
 
@@ -1710,7 +1711,7 @@ def check_fieldname_conflicts(docfield):
 
 
 def clear_linked_doctype_cache():
-	frappe.cache().delete_value("linked_doctypes_without_ignore_user_permissions_enabled")
+	frappe.cache.delete_value("linked_doctypes_without_ignore_user_permissions_enabled")
 
 
 def check_email_append_to(doc):
