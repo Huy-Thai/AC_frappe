@@ -31,11 +31,12 @@ frappe.ui.form.Toolbar = class Toolbar {
 		}
 	}
 	set_title() {
+		let title;
 		if (this.frm.is_new()) {
-			var title = __("New {0}", [__(this.frm.meta.name)]);
+			title = __("New {0}", [__(this.frm.meta.name)]);
 		} else if (this.frm.meta.title_field) {
 			let title_field = (this.frm.doc[this.frm.meta.title_field] || "").toString().trim();
-			var title = strip_html(title_field || this.frm.docname);
+			title = strip_html(title_field || this.frm.docname);
 			if (
 				this.frm.doc.__islocal ||
 				title === this.frm.docname ||
@@ -51,7 +52,7 @@ frappe.ui.form.Toolbar = class Toolbar {
 				});
 			}
 		} else {
-			var title = this.frm.docname;
+			title = this.frm.docname;
 		}
 
 		var me = this;
@@ -97,6 +98,10 @@ frappe.ui.form.Toolbar = class Toolbar {
 		const docname = this.frm.doc.name;
 		const title_field = this.frm.meta.title_field || "";
 		const doctype = this.frm.doctype;
+		let queue;
+		if (this.frm.__rename_queue) {
+			queue = this.frm.__rename_queue;
+		}
 
 		if (input_name) {
 			const warning = __("This cannot be undone");
@@ -119,6 +124,7 @@ frappe.ui.form.Toolbar = class Toolbar {
 					merge,
 					freeze: true,
 					freeze_message: __("Updating related fields..."),
+					queue,
 				})
 				.then((new_docname) => {
 					const reload_form = (input_name) => {

@@ -123,7 +123,7 @@ export default class GridRow {
 					])
 					.catch((e) => {
 						// aborted
-						console.trace(e); // eslint-disable-line
+						console.trace(e);
 					});
 			} else {
 				let data = null;
@@ -338,7 +338,7 @@ export default class GridRow {
 					this.open_form_button = $(`
 						<div class="btn-open-row">
 							<a>${frappe.utils.icon("edit", "xs")}</a>
-							<div class="hidden-xs edit-grid-row">${__("Edit")}</div>
+							<div class="hidden-md edit-grid-row">${__("Edit")}</div>
 						</div>
 					`)
 						.appendTo(this.open_form_button)
