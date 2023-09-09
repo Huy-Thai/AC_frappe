@@ -529,7 +529,10 @@ def get_request_site_address(full_address=False):
 
 
 def get_site_url(site):
-	return f"http://{site}:{frappe.get_conf(site).webserver_port}"
+	conf = frappe.get_conf(site)
+	if conf.host_name:
+		return conf.host_name
+	return f"http://{site}:{conf.webserver_port}"
 
 
 def encode_dict(d, encoding="utf-8"):
@@ -653,6 +656,11 @@ def is_markdown(text):
 		return False
 	else:
 		return not NON_MD_HTML_PATTERN.search(text)
+
+
+def is_a_property(x) -> bool:
+	"""Get properties (@property, @cached_property) in a controller class"""
+	return isinstance(x, (property, functools.cached_property))
 
 
 def get_sites(sites_path=None):
@@ -1125,6 +1133,9 @@ class CallbackManager:
 	def add(self, func: Callable) -> None:
 		"""Add a function to queue, functions are executed in order of addition."""
 		self._functions.append(func)
+
+	def __call__(self, func: Callable) -> None:
+		self.add(func)
 
 	def run(self):
 		"""Run all functions in queue"""
