@@ -9,6 +9,7 @@ import re
 
 from werkzeug.exceptions import HTTPException, NotFound
 from werkzeug.middleware.profiler import ProfilerMiddleware
+from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.middleware.shared_data import SharedDataMiddleware
 from werkzeug.wrappers import Request, Response
 from werkzeug.wsgi import ClosingIterator
@@ -21,10 +22,11 @@ import frappe.rate_limiter
 import frappe.recorder
 import frappe.utils.response
 from frappe import _
-from frappe.auth import SAFE_HTTP_METHODS, UNSAFE_HTTP_METHODS, HTTPRequest
+from frappe.auth import SAFE_HTTP_METHODS, UNSAFE_HTTP_METHODS, HTTPRequest, validate_auth
 from frappe.middlewares import StaticDataMiddleware
-from frappe.utils import CallbackManager, cint, get_site_name, sanitize_html
+from frappe.utils import CallbackManager, cint, get_site_name
 from frappe.utils.data import escape_html
+from frappe.utils.deprecations import deprecation_warning
 from frappe.utils.error import log_error_snapshot
 from frappe.website.serve import get_response
 
@@ -92,16 +94,20 @@ def application(request: Request):
 
 		init_request(request)
 
-		frappe.api.validate_auth()
+		validate_auth()
 
 		if request.method == "OPTIONS":
 			response = Response()
 
 		elif frappe.form_dict.cmd:
-			response = frappe.handler.handle()
+			deprecation_warning(
+				f"{frappe.form_dict.cmd}: Sending `cmd` for RPC calls is deprecated, call REST API instead `/api/method/cmd`"
+			)
+			frappe.handler.handle()
+			response = frappe.utils.response.build_response("json")
 
 		elif request.path.startswith("/api/"):
-			response = frappe.api.handle()
+			response = frappe.api.handle(request)
 
 		elif request.path.startswith("/backups"):
 			response = frappe.utils.response.download_backup(request.path)
@@ -413,7 +419,13 @@ def sync_database(rollback: bool) -> bool:
 
 
 def serve(
-	port=8000, profile=False, no_reload=False, no_threading=False, site=None, sites_path="."
+	port=8000,
+	profile=False,
+	no_reload=False,
+	no_threading=False,
+	site=None,
+	sites_path=".",
+	proxy=False,
 ):
 	global application, _site, _sites_path
 	_site = site
@@ -426,6 +438,9 @@ def serve(
 
 	if not os.environ.get("NO_STATICS"):
 		application = application_with_statics()
+
+	if proxy or os.environ.get("USE_PROXY"):
+		application = ProxyFix(application, x_for=1, x_proto=1, x_host=1, x_port=1, x_prefix=1)
 
 	application.debug = True
 	application.config = {"SERVER_NAME": "127.0.0.1:8000"}
