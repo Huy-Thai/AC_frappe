@@ -274,7 +274,7 @@ class Document(BaseDocument):
 		self._set_defaults()
 		self.set_user_and_timestamp()
 		self.set_docstatus()
-		# self.check_if_latest()
+		self.check_if_latest()
 		self._validate_links()
 		self.check_permission("create")
 		self.run_method("before_insert")
@@ -800,12 +800,13 @@ class Document(BaseDocument):
 			return
 
 		if cstr(previous.modified) != cstr(self._original_modified):
-			frappe.msgprint(
-				_("Error: Document has been modified after you have opened it")
-				+ (f" ({previous.modified}, {self.modified}). ")
-				+ _("Please refresh to get the latest document."),
-				raise_exception=frappe.TimestampMismatchError,
-			)
+			print(f'Error: Document has been modified after you have opened it ({previous.modified}, {self.modified})')
+			# frappe.msgprint(
+			# 	_("Error: Document has been modified after you have opened it")
+			# 	+ (f" ({previous.modified}, {self.modified}). ")
+			# 	+ _("Please refresh to get the latest document."),
+			# 	raise_exception=frappe.TimestampMismatchError,
+			# )
 
 		if not self.meta.issingle:
 			self.check_docstatus_transition(previous.docstatus)
