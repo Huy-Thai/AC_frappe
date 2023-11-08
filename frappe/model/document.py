@@ -274,7 +274,7 @@ class Document(BaseDocument):
 		self._set_defaults()
 		self.set_user_and_timestamp()
 		self.set_docstatus()
-		self.check_if_latest()
+		# self.check_if_latest()
 		self._validate_links()
 		self.check_permission("create")
 		self.run_method("before_insert")
