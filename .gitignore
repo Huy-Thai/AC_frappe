@@ -16,6 +16,7 @@ node_modules
 .kdev4/
 *.kdev4
 *debug.log
+.history
 
 # Not Recommended, but will remove once webpack ready
 package-lock.json

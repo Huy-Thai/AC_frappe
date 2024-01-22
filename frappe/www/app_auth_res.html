@@ -1,0 +1,43 @@
+{% extends "templates/web.html" %}
+
+{% macro login_body() -%}
+<div class="page-card-actions">
+	<button class="btn btn-sm btn-default btn-block btn-login" type="submit">
+		Quay lại ERP Desktop App
+	</button>
+</div>
+{% endmacro %}
+
+{% block head_include %}
+{{ include_style('login.bundle.css') }}
+{% endblock %}
+
+{% macro logo_section() %}
+<div class="page-card-head">
+	<img class="app-logo" src="{{ logo }}">
+	<h4>Đăng nhập Thành Công</h4>
+</div>
+{% endmacro %}
+
+{% block page_content %}
+<div>
+	<section class='for-login'>
+		<div class="login-content page-card">
+			{{ logo_section() }}
+			<form class="form-signin form-login" role="form">
+				<div class="page-card-body">
+					<form class="form-signin form-login" role="form">
+						{{ login_body() }}
+					</form>
+				</div>
+			</form>
+		</div>
+	</section>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>{% include "templates/includes/login/app_auth.js" %}</script>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

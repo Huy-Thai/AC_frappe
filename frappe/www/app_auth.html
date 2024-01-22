@@ -1,0 +1,56 @@
+{% extends "templates/web.html" %}
+
+{% macro login_body() -%}
+<div class="page-card-actions">
+	<div class="social-login-buttons">
+        {% for provider in provider_logins %}
+        <div class="login-button-wrapper">
+            <a href="{{ provider.auth_url }}"
+                class="btn btn-block btn-default btn-sm btn-login-option btn-{{ provider.name }}">
+                {% if provider.icon %}
+                    {{ provider.icon }}
+                {% endif %}
+                {{ _("Đăng nhập với {0}").format(provider.provider_name) }}</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}
+
+{% block head_include %}
+{{ include_style('login.bundle.css') }}
+{% endblock %}
+
+{% macro logo_section() %}
+<div class="page-card-head">
+	<img class="app-logo" src="{{ logo }}">
+	<h4>ERP Desktop App</h4>
+</div>
+{% endmacro %}
+
+{% block page_content %}
+<!-- {{ for_test }} -->
+<div>
+	<noscript>
+		<div class="text-center my-5">
+			<h4>{{ _("Javascript is disabled on your browser") }}</h4>
+			<p class="text-muted">
+				{{ _("You need to enable JavaScript for your app to work.") }}<br>{{ _("To enable it follow the instructions in the following link: {0}").format("<a href='https://enable-javascript.com/'>enable-javascript.com</a></p>") }}
+		</div>
+	</noscript>
+	<section class='for-login'>
+		<div class="login-content page-card">
+			{{ logo_section() }}
+			<form class="form-signin form-login" role="form">
+				<div class="page-card-body">
+					<form class="form-signin form-login" role="form">
+						{{ login_body() }}
+					</form>
+				</div>
+			</form>
+		</div>
+	</section>
+</div>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

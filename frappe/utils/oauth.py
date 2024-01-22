@@ -116,10 +116,10 @@ def login_via_oauth2(provider: str, code: str, state: str, decoder: Callable | N
 
 
 def login_via_oauth2_id_token(
-	provider: str, code: str, state: str, decoder: Callable | None = None
+	provider: str, code: str, state: str, is_app_auth: bool = False, decoder: Callable | None = None
 ):
 	info = get_info_via_oauth(provider, code, decoder, id_token=True)
-	login_oauth_user(info, provider=provider, state=state)
+	login_oauth_user(info, provider=provider, state=state, is_app_auth=is_app_auth)
 
 
 def get_info_via_oauth(
@@ -171,6 +171,7 @@ def login_oauth_user(
 	provider: str | None = None,
 	state: dict | str,
 	generate_login_token: bool = False,
+	is_app_auth: bool,
 ):
 	# json.loads data and state
 	if isinstance(data, str):
@@ -221,6 +222,7 @@ def login_oauth_user(
 	else:
 		redirect_to = state.get("redirect_to")
 		redirect_post_login(
+			is_app_auth=is_app_auth,
 			desk_user=frappe.local.response.get("message") == "Logged In",
 			redirect_to=redirect_to,
 			provider=provider,
@@ -282,7 +284,7 @@ def update_oauth_user(user: str, data: dict, provider: str):
 				user.set_social_login_userid(provider, userid=data["id"])
 			case "github":
 				user.set_social_login_userid(provider, userid=data["id"], username=data.get("login"))
-			case "frappe" | "office_365":
+			case "frappe" | "office_365" | "ms_azure":
 				user.set_social_login_userid(provider, userid=data["sub"])
 			case "salesforce":
 				user.set_social_login_userid(provider, userid="/".join(data["sub"].split("/")[-2:]))
@@ -315,12 +317,21 @@ def get_email(data: dict) -> str:
 
 
 def redirect_post_login(
-	desk_user: bool, redirect_to: str | None = None, provider: str | None = None
+	desk_user: bool, is_app_auth: bool, redirect_to: str | None = None, provider: str | None = None
 ):
 	frappe.local.response["type"] = "redirect"
 
 	if not redirect_to:
+		url = ''
 		desk_uri = "/app/workspace" if provider == "facebook" else "/app"
-		redirect_to = frappe.utils.get_url(desk_uri if desk_user else "/me")
+
+		if desk_user and not is_app_auth:
+			url = desk_uri
+		elif not desk_uri and is_app_auth:
+			url = "/app_auth_res"
+		else:
+			url = "/me"
+		
+		redirect_to = frappe.utils.get_url(url)
 
 	frappe.local.response["location"] = redirect_to

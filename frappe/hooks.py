@@ -396,6 +396,7 @@ override_whitelisted_methods = {
 	"frappe.www.login.login_via_office365": "frappe.integrations.oauth2_logins.login_via_office365",
 	"frappe.www.login.login_via_salesforce": "frappe.integrations.oauth2_logins.login_via_salesforce",
 	"frappe.www.login.login_via_fairlogin": "frappe.integrations.oauth2_logins.login_via_fairlogin",
+	"frappe.www.login.login_via_ms_azure": "frappe.integrations.oauth2_logins.login_via_ms_azure",
 }
 
 ignore_links_on_delete = [
