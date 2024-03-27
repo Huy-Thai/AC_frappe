@@ -33,11 +33,11 @@
 </div>
 {% endif %}
 <div class="page-card-actions">
-	<span class="btn btn-sm btn-default btn-block btn-login">
-		{{ _("...") }}</span>
 	{% if ldap_settings and ldap_settings.enabled %}
 	<button class="btn btn-sm btn-primary btn-block btn-login btn-ldap-login">
 		{{ _("Login with LDAP") }}</button>
+	<span class="btn btn-sm btn-default btn-block btn-login">
+		{{ _("Please enter Email & Password") }}</span>
 	{% endif %}
 </div>
 {% endmacro %}

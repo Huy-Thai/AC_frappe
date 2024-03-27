@@ -82,7 +82,7 @@ login.call = function (args, callback, url="/") {
 }
 
 login.set_status = function (message, color) {
-	$('section:visible .btn-primary').text(message)
+	$('section:visible .btn-default').text(message)
 	if (color == "red") {
 		$('section:visible .page-card-body').addClass("invalid");
 	}
@@ -120,6 +120,7 @@ login.login_handlers = (function () {
 				login.set_invalid(message);
 			} else {
 				login.reset_sections(false);
+				login.set_invalid('Please, try again!');
 			}
 
 		};
