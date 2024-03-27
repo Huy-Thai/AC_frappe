@@ -1,5 +1,6 @@
 import frappe
 from frappe import _
+from frappe.utils import cint
 from frappe.utils.html_utils import get_icon_html
 from frappe.utils.password import get_decrypted_password
 from frappe.utils.oauth import get_oauth2_authorize_url, get_oauth_keys
