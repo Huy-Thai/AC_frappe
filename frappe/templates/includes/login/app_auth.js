@@ -5,6 +5,17 @@ login.bind_events = function () {
 		login.route();
 	});
 
+	$(".toggle-password").click(function () {
+		var input = $($(this).attr("toggle"));
+		if (input.attr("type") == "password") {
+			input.attr("type", "text");
+			$(this).text({{ _("Hide") | tojson }})
+		} else {
+			input.attr("type", "password");
+			$(this).text({{ _("Show") | tojson }})
+		}
+	});
+
 	{% if ldap_settings and ldap_settings.enabled %}
 	$(".btn-ldap-login").on("click", function () {
 		var args = {};
