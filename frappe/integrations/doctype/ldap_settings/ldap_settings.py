@@ -358,7 +358,7 @@ class LDAPSettings(Document):
 
 				# only try and connect as the user, once we have their fqdn entry.
 				if user.entry_dn and password and conn.rebind(user=user.entry_dn, password=password):
-					return self.create_user(self.convert_ldap_entry_to_dict(user), groups=groups)
+					return self.create_or_update_user(self.convert_ldap_entry_to_dict(user), groups=groups)
 
 			raise LDAPInvalidCredentialsResult  # even though nothing foundor failed authentication raise invalid credentials
 
