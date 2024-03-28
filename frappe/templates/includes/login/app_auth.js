@@ -78,7 +78,7 @@ login.call = function (args, callback, url="/") {
 }
 
 login.set_status = function (message, color) {
-	$('section:visible .text-hint').text(message)
+	$('section:visible .btn-default').text(message)
 	if (color == "red") {
 		$('section:visible .page-card-body').addClass("invalid");
 	}
