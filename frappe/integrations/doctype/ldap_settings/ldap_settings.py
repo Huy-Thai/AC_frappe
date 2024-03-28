@@ -177,8 +177,7 @@ class LDAPSettings(Document):
 
 	@classmethod
 	def update_user_fields(cls, user: "User", user_data: dict):
-		print(user_data)
-		updatable_data = {key: value for key, value in user_data.items() if key != "email"}
+		updatable_data = {key: value for key, value in user_data.items() if key != "email" and key != "first_name"}
 
 		for key, value in updatable_data.items():
 			setattr(user, key, value)
