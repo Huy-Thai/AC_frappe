@@ -177,6 +177,7 @@ class LDAPSettings(Document):
 
 	@classmethod
 	def update_user_fields(cls, user: "User", user_data: dict):
+		print(user_data)
 		updatable_data = {key: value for key, value in user_data.items() if key != "email"}
 
 		for key, value in updatable_data.items():
@@ -210,40 +211,6 @@ class LDAPSettings(Document):
 		if frappe.db.exists("User", user_data["email"]):
 			user = frappe.get_doc("User", user_data["email"])
 			LDAPSettings.update_user_fields(user=user, user_data=user_data)
-		elif not self.do_not_create_new_user:
-			doc = user_data | {
-				"doctype": "User",
-				"send_welcome_email": 0,
-				"language": "",
-				"user_type": self.default_user_type,
-			}
-			user = frappe.get_doc(doc)
-			user.insert(ignore_permissions=True)
-		else:
-			frappe.throw(
-				_(
-					"User with email: {0} does not exist in the system. Please ask 'System Administrator' to create the user for you."
-				).format(user_data["email"])
-			)
-
-		if self.default_user_type == "System User":
-			role = self.default_role
-		else:
-			role = frappe.db.get_value("User Type", user.user_type, "role")
-
-		if role:
-			user.add_roles(role)
-
-		self.sync_roles(user, groups)
-
-		return user
-
-	def create_user(self, user_data: dict, groups: list | None = None):
-		user: "User" = None
-		role: str = None
-
-		if frappe.db.exists("User", user_data["email"]):
-			user = frappe.get_doc("User", user_data["email"])
 		elif not self.do_not_create_new_user:
 			doc = user_data | {
 				"doctype": "User",
