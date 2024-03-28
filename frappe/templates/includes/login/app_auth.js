@@ -44,10 +44,6 @@ login.reset_sections = function (hide) {
 		$("section.for-login").toggle(false);
 		$("section.for-email-login").toggle(false);
 	}
-	$('section:not(.signup-disabled) .indicator').each(function () {
-		$(this).removeClass().addClass('indicator').addClass('blue')
-			.text($(this).attr('data-text'));
-	});
 }
 
 login.login = function () {
@@ -82,7 +78,7 @@ login.call = function (args, callback, url="/") {
 }
 
 login.set_status = function (message, color) {
-	$('section:visible .btn-default').text(message)
+	$('section:visible .text-hint').text(message)
 	if (color == "red") {
 		$('section:visible .page-card-body').addClass("invalid");
 	}

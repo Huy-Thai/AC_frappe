@@ -238,6 +238,40 @@ class LDAPSettings(Document):
 
 		return user
 
+	def create_user(self, user_data: dict, groups: list | None = None):
+		user: "User" = None
+		role: str = None
+
+		if frappe.db.exists("User", user_data["email"]):
+			user = frappe.get_doc("User", user_data["email"])
+		elif not self.do_not_create_new_user:
+			doc = user_data | {
+				"doctype": "User",
+				"send_welcome_email": 0,
+				"language": "",
+				"user_type": self.default_user_type,
+			}
+			user = frappe.get_doc(doc)
+			user.insert(ignore_permissions=True)
+		else:
+			frappe.throw(
+				_(
+					"User with email: {0} does not exist in the system. Please ask 'System Administrator' to create the user for you."
+				).format(user_data["email"])
+			)
+
+		if self.default_user_type == "System User":
+			role = self.default_role
+		else:
+			role = frappe.db.get_value("User Type", user.user_type, "role")
+
+		if role:
+			user.add_roles(role)
+
+		self.sync_roles(user, groups)
+
+		return user
+
 	def get_ldap_attributes(self):
 		ldap_attributes = [self.ldap_email_field, self.ldap_username_field, self.ldap_first_name_field]
 
@@ -324,7 +358,7 @@ class LDAPSettings(Document):
 
 				# only try and connect as the user, once we have their fqdn entry.
 				if user.entry_dn and password and conn.rebind(user=user.entry_dn, password=password):
-					return self.create_or_update_user(self.convert_ldap_entry_to_dict(user), groups=groups)
+					return self.create_user(self.convert_ldap_entry_to_dict(user), groups=groups)
 
 			raise LDAPInvalidCredentialsResult  # even though nothing foundor failed authentication raise invalid credentials
 
