@@ -11,7 +11,7 @@ login.bind_events = function () {
 		event.preventDefault();
 		const passphrase = 'ehb88S23us3XiaJWleYvPH2Bv8NgSIgp';
 		let cookies = "{{ user_context }}";
-		let encryptCookies = CryptoJS.AES.encrypt(cookies, passphrase).toString()
+		let encryptCookies = CryptoJS.AES.encrypt(cookies, passphrase).toString();
 
 		window.open(
 			`acerp-desk-app://res=${encryptCookies}`,
