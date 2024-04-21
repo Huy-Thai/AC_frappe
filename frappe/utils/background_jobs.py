@@ -46,14 +46,14 @@ def get_queues_timeout() -> dict[str, int]:
 	"""
 	common_site_config = frappe.get_conf()
 	custom_workers_config = common_site_config.get("workers", {})
-	default_timeout = 300
+	default_timeout = 1500
 
 	# Note: Order matters here
 	# If no queues are specified then RQ prioritizes queues in specified order
 	return {
 		"short": default_timeout,
 		"default": default_timeout,
-		"long": 1500,
+		"long": 2000,
 		**{
 			worker: config.get("timeout", default_timeout) for worker, config in custom_workers_config.items()
 		},
